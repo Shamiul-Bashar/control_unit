@@ -1,105 +1,136 @@
 # Control Unit — Computer Architecture Lab 03
 
-A digital logic and computer architecture project implemented in **Logisim**, featuring a 24-bit register-based datapath, ROM-based control logic, multiplexing, and sequential control circuitry.
-
----
+A **24-bit sequential datapath and control-unit design** implemented in **Logisim**, demonstrating controlled register-to-register data transfer using ROM-based control signals, a counter, multiplexer, and clocked registers.
 
 ## 📌 Project Overview
 
-This project was developed as part of **Computer Architecture Lab 03**.
+This project was developed for **Computer Architecture Lab 03**.
 
-The design demonstrates how a simplified processor datapath can be controlled using digital logic components. The circuit combines registers, a ROM-based control mechanism, multiplexers, splitters, counters, and clock/reset signals to demonstrate controlled data movement and sequential operation.
+The circuit demonstrates a simplified processor datapath in which 24-bit data is transferred between four registers according to a predefined control sequence. The control logic uses a ROM and a 2-bit counter to generate the sequence, while a multiplexer selects the appropriate data path.
 
-The primary objective is to understand the interaction between **control logic, registers, memory, and datapath components** in a basic CPU architecture.
+The implemented transfer sequence is:
 
----
+**A → B → D → C**
 
-## 🧩 Main Components
-
-- **24-bit Input Data**
-- **24-bit Registers:** A, B, C, and D
-- **ROM-based Control Logic**
-- **2-bit Counter**
-- **24-bit Multiplexer**
-- **Splitters**
-- **Clock Signal**
-- **Reset Signal**
-- **Control and Data Routing Logic**
+This project provides a practical example of how **sequential control logic and a datapath work together** in a basic CPU architecture.
 
 ---
 
 ## 🏗️ Architecture
 
-The design consists of two major parts:
+The design consists of four major functional sections:
 
-### Datapath
+### 1. 24-bit Datapath
 
-The datapath stores and transfers 24-bit data between registers.
+Four 24-bit registers are used:
 
-```
-             24-BIT INPUT
-                  │
-                  ▼
-              ┌───────┐
-              │  MUX  │
-              └───┬───┘
-                  │
-        ┌─────────┼─────────┐
-        ▼         ▼         ▼
-     ┌─────┐   ┌─────┐   ┌─────┐   ┌─────┐
-     │  A  │   │  B  │   │  C  │   │  D  │
-     │ 24b │   │ 24b │   │ 24b │   │ 24b │
-     └─────┘   └─────┘   └─────┘   └─────┘
-        ▲         ▲         ▲         ▲
-        └─────────┴─────────┴─────────┘
-                 Control Logic
-```
+- **A**
+- **B**
+- **C**
+- **D**
 
-### Control Unit
+The registers store and transfer data according to the generated control signals.
 
-The control section generates signals required to control data movement and register operations. A ROM and counter provide control information, while splitters distribute control signals through the circuit.
+### 2. Control Sequence Generator
+
+A **2-bit counter** provides the sequence state/address used by the ROM.
+
+The ROM stores the control information required for each step of the sequence.
+
+### 3. Data Selection
+
+A **24-bit multiplexer** selects the appropriate source data before it is transferred to the destination register.
+
+### 4. Timing and Control
+
+The circuit operates using:
+
+- Clock (CLK)
+- Reset (RESET)
+- ROM control signals
+- Splitters for control-signal distribution
 
 ---
 
-## ⚙️ How It Works
+## 🔄 Register Transfer Sequence
+
+The primary sequence implemented by the circuit is:
+
+~~~
+A  →  B  →  D  →  C
+~~~
+
+Conceptually:
+
+| Step | Source | Destination |
+|---:|---|---|
+| 1 | A | B |
+| 2 | B | D |
+| 3 | D | C |
+
+The sequence is controlled synchronously using the clock signal.
+
+---
+
+## 🧩 Main Components
+
+| Component | Specification | Purpose |
+|---|---|---|
+| Register A | 24-bit | Data storage |
+| Register B | 24-bit | Data storage |
+| Register C | 24-bit | Data storage |
+| Register D | 24-bit | Data storage |
+| Multiplexer | 24-bit | Source-data selection |
+| ROM | 2-bit address / 7-bit data | Control information |
+| Counter | 2-bit | Sequence generation |
+| Splitters | Control-signal routing | Signal distribution |
+| Clock | Digital | Sequential timing |
+| Reset | Digital | Circuit initialization |
+
+---
+
+## ⚙️ Operation
+
+The circuit follows a clock-driven sequence:
 
 1. A 24-bit input is supplied to the datapath.
-2. The control logic determines the required data-routing operation.
-3. The multiplexer selects the appropriate data source.
-4. Selected data is transferred toward the destination register.
-5. Registers store data on the appropriate clock event.
-6. ROM and counter logic provide sequential control information.
-7. Reset initializes the relevant circuit state.
-
-This demonstrates the fundamental relationship between a **control unit and datapath** in processor architecture.
+2. The counter generates the current sequence state.
+3. The ROM uses the state to produce control information.
+4. Control signals are distributed through the circuit.
+5. The multiplexer selects the required 24-bit source.
+6. On the appropriate clock event, the selected value is stored in the destination register.
+7. The counter advances to the next sequence state.
+8. The process continues through the **A → B → D → C** transfer sequence.
+9. The reset input can be used to initialize the circuit.
 
 ---
 
 ## 🛠️ Technologies & Tools
 
-| Technology | Purpose |
-|---|---|
-| **Logisim** | Digital circuit design and simulation |
-| **Digital Logic** | Control and datapath implementation |
-| **ROM** | Control information storage |
-| **Registers** | 24-bit data storage |
-| **Multiplexer** | Datapath selection |
-| **Counter** | Sequential control/address generation |
+- **Logisim** — Digital circuit design and simulation
+- **Digital Logic** — Sequential and combinational circuit design
+- **ROM** — Control-signal generation
+- **Registers** — 24-bit state/data storage
+- **Multiplexer** — Datapath selection
+- **Counter** — Sequence/state generation
+- **Splitter** — Control-signal distribution
 
 ---
 
 ## 📁 Repository Structure
 
-```
+~~~
 control_unit/
 │
 ├── FINAL_CA_LAB03_TASK.circ
 └── README.md
-```
+~~~
 
 ### Circuit File
 
-**FINAL_CA_LAB03_TASK.circ** — The main Logisim project containing the digital logic circuit.
+**FINAL_CA_LAB03_TASK.circ**
+
+The complete Logisim circuit implementing the sequential register-transfer architecture.
 
 ---
 
@@ -111,46 +142,61 @@ Install a compatible version of **Logisim**.
 
 ### 2. Clone the Repository
 
-```bash
+~~~bash
 git clone https://github.com/Shamiul-Bashar/control_unit.git
-```
+cd control_unit
+~~~
 
 ### 3. Open the Circuit
 
-Open `FINAL_CA_LAB03_TASK.circ` in Logisim.
+Open:
+
+~~~text
+FINAL_CA_LAB03_TASK.circ
+~~~
+
+in Logisim.
 
 ### 4. Simulate
 
-Use Logisim's simulation controls to provide input data, clock signals, and reset signals, then observe the datapath and control circuitry.
+Use the Logisim simulation controls to:
+
+- Provide 24-bit input data
+- Apply/reset the circuit
+- Generate clock pulses
+- Observe register contents
+- Observe the sequential **A → B → D → C** transfer operation
 
 ---
 
 ## 🎯 Learning Objectives
 
-This project provides practical experience with:
+This project demonstrates practical concepts in:
 
-- Digital logic circuit design
-- CPU datapath architecture
+- Computer architecture
+- Datapath design
 - Control-unit design
-- Register-based data storage
+- Register-transfer operations
+- Sequential circuit design
+- ROM-based control
 - Multiplexer-based data selection
-- ROM-based control logic
-- Sequential circuits
-- Clocked operations
-- Reset mechanisms
-- Signal splitting and routing
-- Computer architecture fundamentals
+- Counter-based sequencing
+- Clocked register operations
+- Reset and initialization
+- Digital signal routing
 
 ---
 
-## 📚 Academic Context
+## 📚 Academic Information
 
 | | |
 |---|---|
 | **Course** | Computer Architecture |
 | **Lab** | Lab 03 |
-| **Project Type** | Digital Logic / CPU Architecture |
+| **Project Type** | Sequential Datapath & Control Unit |
 | **Simulation Tool** | Logisim |
+| **Data Width** | 24-bit |
+| **Transfer Sequence** | A → B → D → C |
 
 ---
 
@@ -165,8 +211,10 @@ Khulna University of Engineering & Technology (KUET)
 
 ## 📄 License
 
-This project is intended primarily for educational and academic purposes. You are welcome to study and reference the implementation for learning purposes.
+This project is intended primarily for **educational and academic purposes**.
+
+The repository may be used for learning, reference, and academic study.
 
 ---
 
-⭐ If you find this project useful for learning digital logic or computer architecture, consider giving the repository a star.
+⭐ If this project helped you understand sequential datapaths and control-unit design, consider giving the repository a star.
