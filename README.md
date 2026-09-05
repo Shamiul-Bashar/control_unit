@@ -6,9 +6,9 @@ A **24-bit sequential datapath and control-unit design** implemented in **Logisi
 
 This project was developed for **Computer Architecture Lab 03**.
 
-The circuit demonstrates a simplified processor datapath in which 24-bit data is transferred between four registers according to a predefined control sequence. The control logic uses a ROM and a 2-bit counter to generate the sequence, while a multiplexer selects the appropriate data path.
+The circuit demonstrates a simplified processor datapath in which 24-bit data is transferred between four registers according to a predefined control sequence. A ROM and 2-bit counter generate the control sequence, while a 24-bit multiplexer selects the required data path.
 
-The implemented transfer sequence is:
+The implemented register-transfer sequence is:
 
 **A → B → D → C**
 
@@ -18,49 +18,36 @@ This project provides a practical example of how **sequential control logic and 
 
 ## 🏗️ Architecture
 
-The design consists of four major functional sections:
+### 24-bit Datapath
 
-### 1. 24-bit Datapath
-
-Four 24-bit registers are used:
+The circuit contains four 24-bit registers:
 
 - **A**
 - **B**
 - **C**
 - **D**
 
-The registers store and transfer data according to the generated control signals.
+These registers provide storage for the processor datapath and participate in the programmed transfer sequence.
 
-### 2. Control Sequence Generator
+### Control Sequence Generator
 
-A **2-bit counter** provides the sequence state/address used by the ROM.
+A **2-bit counter** generates the sequence state used to address a ROM. The ROM provides the control information required for each stage of the operation.
 
-The ROM stores the control information required for each step of the sequence.
+### Data Selection
 
-### 3. Data Selection
+A **24-bit multiplexer** selects the appropriate source data before it is transferred to a destination register.
 
-A **24-bit multiplexer** selects the appropriate source data before it is transferred to the destination register.
+### Timing & Reset
 
-### 4. Timing and Control
-
-The circuit operates using:
-
-- Clock (CLK)
-- Reset (RESET)
-- ROM control signals
-- Splitters for control-signal distribution
+The circuit uses a clock-driven sequential design with dedicated **CLK** and **RESET** signals.
 
 ---
 
 ## 🔄 Register Transfer Sequence
 
-The primary sequence implemented by the circuit is:
-
-~~~
+~~~text
 A  →  B  →  D  →  C
 ~~~
-
-Conceptually:
 
 | Step | Source | Destination |
 |---:|---|---|
@@ -68,7 +55,7 @@ Conceptually:
 | 2 | B | D |
 | 3 | D | C |
 
-The sequence is controlled synchronously using the clock signal.
+The transfers are controlled synchronously by the clock and the generated control signals.
 
 ---
 
@@ -80,7 +67,7 @@ The sequence is controlled synchronously using the clock signal.
 | Register B | 24-bit | Data storage |
 | Register C | 24-bit | Data storage |
 | Register D | 24-bit | Data storage |
-| Multiplexer | 24-bit | Source-data selection |
+| Multiplexer | 24-bit | Datapath/source selection |
 | ROM | 2-bit address / 7-bit data | Control information |
 | Counter | 2-bit | Sequence generation |
 | Splitters | Control-signal routing | Signal distribution |
@@ -91,17 +78,15 @@ The sequence is controlled synchronously using the clock signal.
 
 ## ⚙️ Operation
 
-The circuit follows a clock-driven sequence:
-
 1. A 24-bit input is supplied to the datapath.
 2. The counter generates the current sequence state.
-3. The ROM uses the state to produce control information.
+3. The ROM uses that state to produce control information.
 4. Control signals are distributed through the circuit.
 5. The multiplexer selects the required 24-bit source.
-6. On the appropriate clock event, the selected value is stored in the destination register.
-7. The counter advances to the next sequence state.
-8. The process continues through the **A → B → D → C** transfer sequence.
-9. The reset input can be used to initialize the circuit.
+6. The selected value is stored in the destination register on the appropriate clock event.
+7. The counter advances to the next state.
+8. The process continues through the **A → B → D → C** sequence.
+9. RESET can be used to initialize the circuit.
 
 ---
 
@@ -110,7 +95,7 @@ The circuit follows a clock-driven sequence:
 - **Logisim** — Digital circuit design and simulation
 - **Digital Logic** — Sequential and combinational circuit design
 - **ROM** — Control-signal generation
-- **Registers** — 24-bit state/data storage
+- **24-bit Registers** — State/data storage
 - **Multiplexer** — Datapath selection
 - **Counter** — Sequence/state generation
 - **Splitter** — Control-signal distribution
@@ -119,18 +104,18 @@ The circuit follows a clock-driven sequence:
 
 ## 📁 Repository Structure
 
-~~~
+~~~text
 control_unit/
 │
-├── FINAL_CA_LAB03_TASK.circ
+├── FINAL_CA_SEQUENCE_TASK.circ
 └── README.md
 ~~~
 
 ### Circuit File
 
-**FINAL_CA_LAB03_TASK.circ**
+**FINAL_CA_SEQUENCE_TASK.circ**
 
-The complete Logisim circuit implementing the sequential register-transfer architecture.
+The complete Logisim circuit for the Computer Architecture Lab 03 sequence task.
 
 ---
 
@@ -152,19 +137,19 @@ cd control_unit
 Open:
 
 ~~~text
-FINAL_CA_LAB03_TASK.circ
+FINAL_CA_SEQUENCE_TASK.circ
 ~~~
 
 in Logisim.
 
 ### 4. Simulate
 
-Use the Logisim simulation controls to:
+Use Logisim's simulation controls to:
 
 - Provide 24-bit input data
-- Apply/reset the circuit
+- Apply RESET when required
 - Generate clock pulses
-- Observe register contents
+- Observe the register values
 - Observe the sequential **A → B → D → C** transfer operation
 
 ---
@@ -211,9 +196,7 @@ Khulna University of Engineering & Technology (KUET)
 
 ## 📄 License
 
-This project is intended primarily for **educational and academic purposes**.
-
-The repository may be used for learning, reference, and academic study.
+This project is intended primarily for **educational and academic purposes** and may be used for learning, reference, and academic study.
 
 ---
 
